@@ -1,0 +1,26 @@
+/* Si necesitas estilos específicos para la página de features, 
+   puedes agregarlos aquí, pero probablemente rutaTest.css sea suficiente */
+
+/* Estilos específicos para los iconos de features */
+.subject-icon .fa-sliders,
+.subject-icon .fa-chart-line {
+  color: #8A2BE2; /* Azul violeta */
+}
+
+.subject-icon .fa-stopwatch,
+.subject-icon .fa-book-open {
+  color: #9370DB; /* Púrpura medio */
+}
+
+.subject-icon .fa-database,
+.subject-icon .fa-mobile-alt {
+  color: #7B68EE; /* Azul pizarra medio */
+}
+
+/* Efecto de hover mejorado para las tarjetas de características */
+.subject-card:hover .subject-icon i {
+  transform: scale(1.2);
+  transition: transform 0.3s ease;
+}
+
+/* Puedes agregar animaciones o estilos adicionales específicos para esta página */
