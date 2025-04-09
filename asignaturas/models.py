@@ -31,6 +31,7 @@ class Pregunta(db.Model):
     explicacion = db.Column(db.Text, nullable=True)
     opcion1 = db.Column(db.Text,nullable=False)
     opcion2 = db.Column(db.Text,nullable=False)
+    dificultad = db.Column(db.Text,nullable=False)
     # Tipo de pregunta: multiple, simple, verdadero_falso, texto_libre
     tipo = db.Column(db.String(20), default='simple')
     

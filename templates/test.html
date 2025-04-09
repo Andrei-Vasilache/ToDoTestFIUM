@@ -60,36 +60,36 @@
           <!-- Mostrar resultado y explicación -->
 <div class="opciones-resultado">
   <!-- Primera opción (valor 0) -->
-  <div class="opcion-resultado mb-3 p-2 rounded 
-      {% if respuesta_elegida == '0' and respuesta_correcta %}bg-success bg-opacity-25
-      {% elif respuesta_elegida == '0' and not respuesta_correcta %}bg-danger bg-opacity-25
-      {% elif respuesta_elegida != '0' and not respuesta_correcta %}bg-success bg-opacity-10{% endif %}">
-    {{ pregunta.opcion1 }}
-    {% if respuesta_elegida == '0' %}
-      <span class="badge {% if respuesta_correcta %}bg-success{% else %}bg-danger{% endif %} ms-2">
-        Tu respuesta
-      </span>
-    {% endif %}
-    {% if respuesta_elegida != '0' and not respuesta_correcta %}
-      <span class="badge bg-success ms-2">Correcta</span>
-    {% endif %}
-  </div>
-  
-  <!-- Segunda opción (valor 1) -->
-  <div class="opcion-resultado mb-3 p-2 rounded
-      {% if respuesta_elegida == '1' and respuesta_correcta %}bg-success bg-opacity-25
-      {% elif respuesta_elegida == '1' and not respuesta_correcta %}bg-danger bg-opacity-25
-      {% elif respuesta_elegida != '1' and respuesta_correcta %}bg-success bg-opacity-10{% endif %}">
-    {{ pregunta.opcion2 }}
-    {% if respuesta_elegida == '1' %}
-      <span class="badge {% if respuesta_correcta %}bg-success{% else %}bg-danger{% endif %} ms-2">
-        Tu respuesta
-      </span>
-    {% endif %}
-    {% if respuesta_elegida != '1' and respuesta_correcta %}
-      <span class="badge bg-success ms-2">Correcta</span>
-    {% endif %}
-  </div>
+<div class="opcion-resultado mb-3 p-2 rounded
+{% if respuesta_elegida == '0' and respuesta_correcta %}bg-success bg-opacity-25
+{% elif respuesta_elegida == '0' and not respuesta_correcta %}bg-danger bg-opacity-25
+{% elif respuesta_elegida != '0' and not respuesta_correcta %}bg-success bg-opacity-10{% endif %}">
+{{ pregunta.opcion1 }}
+{% if respuesta_elegida == '0' %}
+<span class="badge {% if respuesta_correcta %}bg-success{% else %}bg-danger{% endif %} ms-2">
+  Tu respuesta
+</span>
+{% endif %}
+{% if respuesta_elegida != '0' and not respuesta_correcta %}
+<span class="badge bg-success ms-2">Correcta</span>
+{% endif %}
+</div>
+
+<!-- Segunda opción (valor 1) -->
+<div class="opcion-resultado mb-3 p-2 rounded
+{% if respuesta_elegida == '1' and respuesta_correcta %}bg-success bg-opacity-25
+{% elif respuesta_elegida == '1' and not respuesta_correcta %}bg-danger bg-opacity-25
+{% elif respuesta_elegida != '1' and not respuesta_correcta %}bg-success bg-opacity-10{% endif %}">
+{{ pregunta.opcion2 }}
+{% if respuesta_elegida == '1' %}
+<span class="badge {% if respuesta_correcta %}bg-success{% else %}bg-danger{% endif %} ms-2">
+  Tu respuesta
+</span>
+{% endif %}
+{% if respuesta_elegida != '1' and not respuesta_correcta %}
+<span class="badge bg-success ms-2">Correcta</span>
+{% endif %}
+</div>
 </div>
             <!-- Explicación -->
             <div class="explicacion mt-4 p-3 border-start border-4 border-primary bg-light">

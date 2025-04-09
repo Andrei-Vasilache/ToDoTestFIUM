@@ -37,7 +37,8 @@ def crear_pregunta_opcion_multiple(texto_pregunta, tema_id,tema,opciones, indice
     
     db.session.commit()
     return pregunta
-def crear_pregunta_opcion_simple(texto_pregunta, tema_id,tema,asignatura_id, opciones, indice_correcto, explicacion=None):
+def crear_pregunta_opcion_simple(texto_pregunta, tema_id,tema,asignatura_id, 
+                                 opciones, indice_correcto,dificultad, explicacion=None):
     """
     Crea una pregunta de opción simple con sus respuestas
     
@@ -56,6 +57,7 @@ def crear_pregunta_opcion_simple(texto_pregunta, tema_id,tema,asignatura_id, opc
         tema_num=tema,
         asignatura_id=asignatura_id,
         tipo='simple',
+        dificultad=dificultad,
         explicacion=explicacion,
         opcion1=opciones[0],
         opcion2=opciones[1]
@@ -154,7 +156,7 @@ def cargar_datos_ejemplo(asignatura_nombre,tema_param):
     ).first()
     directorio_actual = os.path.dirname(os.path.abspath(__file__))
     directorio_raiz = os.path.dirname(directorio_actual)
-    ruta_archivo = os.path.join(directorio_raiz ,'preguntasISO','preguntasISO_T1.csv')
+    ruta_archivo = os.path.join(directorio_raiz ,f'preguntas{asignatura_nombre}',f'preguntas{asignatura_nombre}_T{tema_param}.csv')
     preguntasT1ISO = pd.read_csv(ruta_archivo)
     for indice, fila in preguntasT1ISO.iterrows():
         # Cada fila es una Serie de pandas
@@ -167,6 +169,7 @@ def cargar_datos_ejemplo(asignatura_nombre,tema_param):
             opciones=fila.opciones,
             indice_correcto=fila.indices_correctos,
             explicacion=fila.explicacion,
+            dificultad=fila.dificultad
         )
     # Crear preguntas para el tema de Programación
     #crear_pregunta_opcion_simple(
@@ -200,11 +203,12 @@ if __name__ == "__main__":
     
     with app.app_context():
         db.create_all()
-        cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=3)
         cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=1)
-
         cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=2)
-
+        cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=3)
+        cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=4)
+        cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=5)
+        cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=6)
 with app.app_context():
     todas_preguntas = Pregunta.query.all()
     print(f"Total de preguntas en la base de datos: {len(todas_preguntas)}")
