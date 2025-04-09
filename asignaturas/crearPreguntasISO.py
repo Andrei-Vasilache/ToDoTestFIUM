@@ -152,7 +152,7 @@ def cargar_datos_ejemplo(asignatura_nombre,tema_param):
     asignatura = Asignatura.query.filter(Asignatura.codigo == asignatura_nombre).first()
     tema = Tema.query.filter(
     Tema.nombre.like(f"%{asignatura_nombre}%"), 
-    Tema.descripcion.like(f"%Tema {tema_param}%")
+    Tema.tema.like(f"%{tema_param}%")
     ).first()
     directorio_actual = os.path.dirname(os.path.abspath(__file__))
     directorio_raiz = os.path.dirname(directorio_actual)
@@ -209,6 +209,10 @@ if __name__ == "__main__":
         cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=4)
         cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=5)
         cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=6)
+        cargar_datos_ejemplo(asignatura_nombre="AEC",tema_param=1)
+        cargar_datos_ejemplo(asignatura_nombre="AEC",tema_param=2)
+        cargar_datos_ejemplo(asignatura_nombre="AEC",tema_param=3)
+        cargar_datos_ejemplo(asignatura_nombre="AEC",tema_param=4)
 with app.app_context():
     todas_preguntas = Pregunta.query.all()
     print(f"Total de preguntas en la base de datos: {len(todas_preguntas)}")

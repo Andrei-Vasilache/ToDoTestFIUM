@@ -32,6 +32,7 @@ def show_test(codigo_asignatura):
     if request.method == 'POST':
         temas_seleccionados = request.form.getlist('temas_seleccionados')
         npreguntas = request.form['num_preguntas']
+        randomizar_preguntas = request.form.get('randomizar_preguntas')
         session['current_pregunta_index'] = 0  # Iniciar en el primer índice
 
     # Selección aleatoria de preguntas
@@ -42,8 +43,12 @@ def show_test(codigo_asignatura):
         .order_by(func.random())\
         .limit(npreguntas)\
         .all()    
-        preguntas.extend(tema_preguntas)   
-    
+        print(tema)
+        preguntas.extend(tema_preguntas)
+    if randomizar_preguntas:
+        random.shuffle(preguntas)
+           
+    print(f"Tema preguntas: {tema_preguntas}")
     # Guardar en sesión los IDs de las preguntas en el orden aleatorio
     pregunta_ids = [p.id for p in preguntas]
     session['pregunta_ids'] = pregunta_ids
@@ -62,74 +67,88 @@ def show_test(codigo_asignatura):
                           mostrar_explicacion=False,
                           hay_siguiente=len(pregunta_ids) > 1,)
 
-@app.route('/test/<codigo_asignatura>/verificar/<int:pregunta_id>',methods=["GET","POST"])
-def validar_test(codigo_asignatura, pregunta_id):
-    # Buscar asignatura por código
+@app.route('/test/<codigo_asignatura>/pregunta/<int:pregunta_id>', methods=["GET"])
+def show_pregunta(codigo_asignatura, pregunta_id):
+    """Muestra una pregunta específica del test."""
+    # Recuperar datos necesarios
     asignatura = Asignatura.query.filter_by(codigo=codigo_asignatura).first_or_404()
-    respuesta = Respuesta.query.filter_by(pregunta_id=pregunta_id).first()
-    pregunta = Pregunta.query.get(pregunta_id)
+    pregunta = Pregunta.query.get_or_404(pregunta_id)
     
-        
-    # Verificar respuesta
-    respuesta_elegida = request.form.get('respuesta')
-    respuesta_correcta = int(respuesta_elegida) == int(respuesta.indice_correcto)
-    #obtener preguntas
+    # Obtener datos de la sesión
     pregunta_ids = session.get('pregunta_ids', [])
-    indice_actual = session.get('indice_actual', 0)
-    # Progress bar 
-    pregunta_actual = indice_actual + 1
-    total_preguntas = len(pregunta_ids)
-    width_percentage = (pregunta_actual / total_preguntas) * 100
-
-    return render_template('test.html',
-                          asignatura=asignatura,
-                          pregunta=pregunta,  # Objeto pregunta, no número
-                          pregunta_actual=pregunta_actual,  # Número de pregunta actual
-                          total_preguntas=total_preguntas,  # Total desde la sesión
-                          mostrar_explicacion=True,  # Ahora queremos mostrar la explicación
-                          respuesta_elegida=respuesta_elegida,
-                          respuesta_correcta=respuesta_correcta,
-                          hay_siguiente=len(pregunta_ids) > 0,
-                          width_percentage=width_percentage)  # Añadido para la barra de progreso
-
-@app.route('/test/<codigo_asignatura>/siguiente/<int:pregunta_id>',methods=["GET","POST"])
-def siguiente_pregunta(codigo_asignatura,pregunta_id):
-    # Buscar asignatura por código
-    asignatura = Asignatura.query.filter_by(codigo=codigo_asignatura).first_or_404()
-    
-    # Obtener lista de IDs de preguntas de la sesión
-    pregunta_ids = session.get('pregunta_ids', [])
-    indice_actual = session.get('indice_actual', 0)
-    
-    # Incrementar el índice
-    indice_actual += 1
-    print(indice_actual)
-    print(len(pregunta_ids))
-    if indice_actual+1 > len(pregunta_ids):
-        return render_template('home.html')
-    # Actualizar el índice en la sesión
+    indice_actual = pregunta_ids.index(pregunta_id) if pregunta_id in pregunta_ids else 0
     session['indice_actual'] = indice_actual
     
-    # Obtener la siguiente pregunta
-    siguiente_id = pregunta_ids[indice_actual]
-    siguiente_pregunta = Pregunta.query.get(siguiente_id)
-    
-    # Calcular el número de pregunta y el porcentaje de la barra
+    # Datos para la vista
     pregunta_actual = indice_actual + 1
     total_preguntas = len(pregunta_ids)
     width_percentage = (pregunta_actual / total_preguntas) * 100
-    
-    # Verificar si hay más preguntas después de esta
     hay_siguiente = pregunta_actual < total_preguntas
     
     return render_template('test.html',
                           asignatura=asignatura,
-                          pregunta=siguiente_pregunta,
+                          pregunta=pregunta,
                           pregunta_actual=pregunta_actual,
                           total_preguntas=total_preguntas,
                           mostrar_explicacion=False,
                           hay_siguiente=hay_siguiente,
-                          width_percentage=width_percentage)
+                          width_percentage=width_percentage,
+                          pregunta_ids=pregunta_ids,
+                          indice_actual=indice_actual)
+
+
+@app.route('/test/<codigo_asignatura>/explicacion/<int:pregunta_id>', methods=["POST"])
+def show_explicacion(codigo_asignatura, pregunta_id):
+    """Procesa la respuesta y muestra la explicación."""
+    # Recuperar datos necesarios
+    asignatura = Asignatura.query.filter_by(codigo=codigo_asignatura).first_or_404()
+    pregunta = Pregunta.query.get_or_404(pregunta_id)
+    respuesta = Respuesta.query.filter_by(pregunta_id=pregunta_id).first()
+    
+    # Verificar respuesta
+    respuesta_elegida = request.form.get('respuesta', '0')
+    respuesta_correcta = int(respuesta_elegida) == int(respuesta.indice_correcto)
+    
+    # Datos para la vista
+    pregunta_ids = session.get('pregunta_ids', [])
+    indice_actual = session.get('indice_actual', 0)
+    pregunta_actual = indice_actual + 1
+    total_preguntas = len(pregunta_ids)
+    width_percentage = (pregunta_actual / total_preguntas) * 100
+    hay_siguiente = pregunta_actual < total_preguntas
+    
+    return render_template('test.html',
+                          asignatura=asignatura,
+                          pregunta=pregunta,
+                          pregunta_actual=pregunta_actual,
+                          total_preguntas=total_preguntas,
+                          mostrar_explicacion=True,
+                          respuesta_elegida=respuesta_elegida,
+                          respuesta_correcta=respuesta_correcta,
+                          hay_siguiente=hay_siguiente,
+                          width_percentage=width_percentage,
+                          pregunta_ids=pregunta_ids,
+                          indice_actual=indice_actual)
+
+
+@app.route('/test/<codigo_asignatura>/siguiente/<int:pregunta_actual>', methods=["GET"])
+def siguiente_pregunta(codigo_asignatura, pregunta_actual):
+    """Redirige a la siguiente pregunta o a la página de resultados."""
+    # Obtener datos de la sesión y avanzar
+    pregunta_ids = session.get('pregunta_ids', [])
+    indice_actual = session.get('indice_actual', 0)
+    indice_actual += 1
+    session['indice_actual'] = indice_actual
+    
+    # Si ya terminamos, ir a la página de resultados
+    if indice_actual >= len(pregunta_ids):
+        return redirect(url_for('home'))  # O a tu página de resultados
+    
+    # Redirigir a la siguiente pregunta
+    siguiente_id = pregunta_ids[indice_actual]
+    return redirect(url_for('show_pregunta', 
+                           codigo_asignatura=codigo_asignatura, 
+                           pregunta_id=siguiente_id))
 @app.route('/contacto')
 def contacto():
     return render_template('contacto.html')

@@ -16,7 +16,7 @@ class Asignatura(db.Model):
 class Tema(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
-    descripcion = db.Column(db.Text, nullable=True)
+    tema = db.Column(db.Integer, nullable=True)
     asignatura_id = db.Column(db.Integer, db.ForeignKey('asignatura.id'), nullable=False)
     
     # Relación con las preguntas
