@@ -10,6 +10,8 @@ class Asignatura(db.Model):
     
     # Relación con temas
     temas = db.relationship('Tema', backref='asignatura', lazy=True)
+    # Relación con las preguntas
+    preguntas = db.relationship('Pregunta', backref='asignatura', lazy=True)
 
 class Tema(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -24,8 +26,11 @@ class Pregunta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     texto = db.Column(db.Text, nullable=False)
     tema_id = db.Column(db.Integer, db.ForeignKey('tema.id'), nullable=False)
+    tema_num = db.Column(db.Integer,nullable=False)
+    asignatura_id = db.Column(db.Integer, db.ForeignKey('asignatura.id'),nullable=False)
     explicacion = db.Column(db.Text, nullable=True)
-    
+    opcion1 = db.Column(db.Text,nullable=False)
+    opcion2 = db.Column(db.Text,nullable=False)
     # Tipo de pregunta: multiple, simple, verdadero_falso, texto_libre
     tipo = db.Column(db.String(20), default='simple')
     
@@ -42,6 +47,7 @@ class Pregunta(db.Model):
 class Respuesta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     texto = db.Column(db.Text, nullable=False)
+    indice_correcto = db.Column(db.Integer,nullable=False)
     pregunta_id = db.Column(db.Integer, db.ForeignKey('pregunta.id'), nullable=False)
     es_correcta = db.Column(db.Boolean, default=False)
     

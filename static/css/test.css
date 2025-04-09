@@ -1,0 +1,296 @@
+
+  
+  /* Question Container Styles */
+  .question-container {
+    background-color: #2a2d31;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .question-container:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Test Progress Bar */
+  .test-progress {
+    margin: 0 auto 25px auto;
+    max-width: 800px;
+    width: 100%;
+    position: relative;
+  }
+  
+  .progress {
+    height: 24px; /* Increased height for text */
+    background-color: #2a2d31;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .progress-bar {
+    background: linear-gradient(90deg, #712cf9 0%, #8A2BE2 100%);
+    transition: width 0.8s ease;
+    height: 100%;
+    min-width: 0%;
+    /* La barra se irá llenando según el valor width proporcionado en el HTML */
+  }
+  
+  /* Text overlay - independiente del ancho de la barra */
+  .progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .progress-bar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    opacity: 0.3;
+    width: 100%;
+    z-index: -1;
+  }
+  
+  /* Texto siempre visible con contraste */
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.85rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+    white-space: nowrap;
+    overflow: visible;
+  }
+  
+  /* Answer Options */
+  .form-check {
+    padding: 12px;
+    border-radius: 6px;
+    background-color: #32363a;
+    margin-bottom: 15px !important;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .form-check:hover {
+    background-color: #3a3f44;
+    transform: translateX(5px);
+  }
+  
+  .form-check-input {
+    cursor: pointer;
+    margin-top: 0.3em;
+  }
+  
+  .form-check-label {
+    cursor: pointer;
+    width: 100%;
+    padding-left: 10px;
+  }
+  
+  /* Result Styles */
+  .opciones-resultado {
+    margin-top: 20px;
+  }
+  
+  .opcion-resultado {
+    transition: all 0.3s ease;
+  }
+  
+  .opcion-resultado:hover {
+    transform: translateX(5px);
+  }
+  
+  .bg-success.bg-opacity-25 {
+    background-color: rgba(25, 135, 84, 0.25) !important;
+  }
+  
+  .bg-danger.bg-opacity-25 {
+    background-color: rgba(220, 53, 69, 0.25) !important;
+  }
+  
+  .bg-success.bg-opacity-10 {
+    background-color: rgba(25, 135, 84, 0.1) !important;
+  }
+  
+  /* Badge Styles */
+  .badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35em 0.65em;
+    border-radius: 4px;
+    vertical-align: middle;
+  }
+  
+  .badge.bg-success {
+    background-color: #198754 !important;
+  }
+  
+  .badge.bg-danger {
+    background-color: #dc3545 !important;
+  }
+  
+  /* Explanation Section */
+  .explicacion {
+    background-color: #32363a !important;
+    border-radius: 6px;
+    padding: 15px !important;
+    border-left: 4px solid #712cf9 !important;
+    margin-top: 25px !important;
+  }
+  
+  .explicacion h5 {
+    color: #712cf9;
+    margin-bottom: 10px;
+  }
+  
+  /* Button Styles */
+  .btn-primary {
+    background-color: #712cf9;
+    border-color: #712cf9;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #6528e0;
+    border-color: #6528e0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btn-primary:active {
+    background-color: #5a23c8;
+    border-color: #5a23c8;
+    transform: translateY(0);
+  }
+  
+  /* Animation Effects */
+  .fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Footer Styles */
+  footer {
+    margin-top: auto;
+    padding: 20px 0;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  /* Title Styling */
+  h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding: 10px;
+    font-weight: 600;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Title and Progress Bar Layout */
+  main h1:first-of-type {
+    border-bottom: 2px solid rgba(113, 44, 249, 0.5);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+  }
+  
+  /* Make sure the progress bar is positioned nicely after the title */
+  main h1:first-of-type + .test-progress {
+    margin-top: -5px;
+  }
+  @media (max-width: 768px) {
+    .cover-container {
+      padding: 10px !important;
+      max-width: 95% !important;
+    }
+    
+    main {
+      padding: 10px !important;
+      width: 100% !important;
+    }
+    
+    .question-container {
+      max-width: 95%;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+    }
+    
+    h4 {
+      font-size: 1.2rem;
+    }
+    
+    .form-check {
+      padding: 10px;
+    }
+  }
+  
+  /* Add some unique styling elements from your original CSS */
+  .subject-icon .fa-sliders,
+  .subject-icon .fa-chart-line,
+  .subject-icon .fa-stopwatch,
+  .subject-icon .fa-book-open,
+  .subject-icon .fa-database,
+  .subject-icon .fa-mobile-alt {
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Visual feedback when selecting an option */
+  .form-check-input:checked + .form-check-label {
+    font-weight: 600;
+    color: #fff;
+  }
+  
+  .form-check-input:checked {
+    background-color: #712cf9;
+    border-color: #712cf9;
+  }
+  
+  /* Improve the dark theme contrast */
+  .bg-light {
+    background-color: #32363a !important;
+    color: #fff !important;
+  }
+  
+  /* Add a pulsing effect to the "Verificar Respuesta" button */
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(113, 44, 249, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(113, 44, 249, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(113, 44, 249, 0);
+    }
+  }
+  
+  .btn-primary {
+    animation: pulse 2s infinite;
+  }
+  
+  .btn-primary:hover {
+    animation: none;
+  }

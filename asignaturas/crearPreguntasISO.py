@@ -1,9 +1,9 @@
 from models import db, Tema, Pregunta, Respuesta,Asignatura
 from flask import Flask
-
-
-
-def crear_pregunta_opcion_multiple(texto_pregunta, tema_id, opciones, indices_correctos, explicacion=None):
+import pandas as pd
+import os
+import json
+def crear_pregunta_opcion_multiple(texto_pregunta, tema_id,tema,opciones, indices_correctos, explicacion=None):
     """
     Crea una pregunta de opción múltiple con sus respuestas
     
@@ -18,6 +18,7 @@ def crear_pregunta_opcion_multiple(texto_pregunta, tema_id, opciones, indices_co
     pregunta = Pregunta(
         texto=texto_pregunta,
         tema_id=tema_id,
+        tema=tema,
         tipo='multiple',
         explicacion=explicacion
     )
@@ -36,7 +37,7 @@ def crear_pregunta_opcion_multiple(texto_pregunta, tema_id, opciones, indices_co
     
     db.session.commit()
     return pregunta
-def crear_pregunta_opcion_simple(texto_pregunta, tema_id, opciones, indice_correcto, explicacion=None):
+def crear_pregunta_opcion_simple(texto_pregunta, tema_id,tema,asignatura_id, opciones, indice_correcto, explicacion=None):
     """
     Crea una pregunta de opción simple con sus respuestas
     
@@ -47,23 +48,28 @@ def crear_pregunta_opcion_simple(texto_pregunta, tema_id, opciones, indice_corre
         indice_correcto: Índice (empezando por 0) de la opción correcta
         explicacion: Explicación opcional de la respuesta correcta
     """
+    opciones = json.loads(opciones)
     # Crear la pregunta
     pregunta = Pregunta(
         texto=texto_pregunta,
         tema_id=tema_id,
+        tema_num=tema,
+        asignatura_id=asignatura_id,
         tipo='simple',
-        explicacion=explicacion
+        explicacion=explicacion,
+        opcion1=opciones[0],
+        opcion2=opciones[1]
     )
     db.session.add(pregunta)
     db.session.flush()  # Para obtener el ID asignado
-    
     for i, opcion_texto in enumerate(opciones):
         es_correcta = (i == indice_correcto)
         print(f"Opción {i}: '{opcion_texto}' - ¿Es correcta? {es_correcta}")  # Depuración
         respuesta = Respuesta(
             texto=opcion_texto,
             pregunta_id=pregunta.id,
-            es_correcta=es_correcta
+            es_correcta=es_correcta,
+            indice_correcto=indice_correcto
         )
         db.session.add(respuesta)
     
@@ -122,6 +128,7 @@ def crear_pregunta_texto_libre(texto_pregunta, tema_id, respuesta_correcta, expl
     pregunta = Pregunta(
         texto=texto_pregunta,
         tema_id=tema_id,
+
         tipo='texto_libre',
         explicacion=explicacion
     )
@@ -139,26 +146,40 @@ def crear_pregunta_texto_libre(texto_pregunta, tema_id, respuesta_correcta, expl
     db.session.commit()
     return pregunta
 
-def cargar_datos_ejemplo():
-    tema_ISO = Tema.query.filter(
-    Tema.nombre.like("%ISO%"), 
-    Tema.descripcion.like("%Tema 4%")
+def cargar_datos_ejemplo(asignatura_nombre,tema_param):
+    asignatura = Asignatura.query.filter(Asignatura.codigo == asignatura_nombre).first()
+    tema = Tema.query.filter(
+    Tema.nombre.like(f"%{asignatura_nombre}%"), 
+    Tema.descripcion.like(f"%Tema {tema_param}%")
     ).first()
-    print(f"Tema ISO ID: {tema_ISO.id if tema_ISO else 'No encontrado'}")
+    directorio_actual = os.path.dirname(os.path.abspath(__file__))
+    directorio_raiz = os.path.dirname(directorio_actual)
+    ruta_archivo = os.path.join(directorio_raiz ,'preguntasISO','preguntasISO_T1.csv')
+    preguntasT1ISO = pd.read_csv(ruta_archivo)
+    for indice, fila in preguntasT1ISO.iterrows():
+        # Cada fila es una Serie de pandas
 
-
+        crear_pregunta_opcion_simple(
+            texto_pregunta=fila.texto_pregunta,
+            tema_id=tema.id,
+            tema=tema_param,
+            asignatura_id=asignatura.id,
+            opciones=fila.opciones,
+            indice_correcto=fila.indices_correctos,
+            explicacion=fila.explicacion,
+        )
     # Crear preguntas para el tema de Programación
-    crear_pregunta_opcion_simple(
-        "En el concepto de sistema operativo como controlador de recursos:",
-        tema_ISO.id,
-        ["El SO asigna recursos solo cuando un programa lo solicita explícitamente",
-         "El SO mantiene un registro continuo de la utilización de recursos y media en conflictos"],
-        1,  # char es la respuesta correcta (índice 1)
-        # Explicacion
-        'El SO como controlador de recursos mantiene registro continuo de la utilización de los mismos, da paso ' \
-        'a las solicitudes de uso, lleva cuenta de ese uso y media en los conflictos producidos por ' \
-        'las solicitudes de distintos programas y usuarios, no solo cuando se solicitan explícitamente.'
-    )
+    #crear_pregunta_opcion_simple(
+    #    "En el concepto de sistema operativo como controlador de recursos:",
+    #    tema_ISO.id,
+    #    ["El SO asigna recursos solo cuando un programa lo solicita explícitamente",
+    #     "El SO mantiene un registro continuo de la utilización de recursos y media en conflictos"],
+    #    1,  # char es la respuesta correcta (índice 1)
+    #    # Explicacion
+    #    'El SO como controlador de recursos mantiene registro continuo de la utilización de los mismos, da paso ' \
+    #    'a las solicitudes de uso, lleva cuenta de ese uso y media en los conflictos producidos por ' \
+    #    'las solicitudes de distintos programas y usuarios, no solo cuando se solicitan explícitamente.'
+    #)
     
     print("Datos de ejemplo cargados correctamente.")
 
@@ -179,7 +200,11 @@ if __name__ == "__main__":
     
     with app.app_context():
         db.create_all()
-        cargar_datos_ejemplo()
+        cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=3)
+        cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=1)
+
+        cargar_datos_ejemplo(asignatura_nombre="ISO",tema_param=2)
+
 with app.app_context():
     todas_preguntas = Pregunta.query.all()
     print(f"Total de preguntas en la base de datos: {len(todas_preguntas)}")
