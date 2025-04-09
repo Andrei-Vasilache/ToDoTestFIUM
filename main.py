@@ -43,7 +43,6 @@ def show_test(codigo_asignatura):
         .limit(npreguntas)\
         .all()    
         preguntas.extend(tema_preguntas)   
-    random.shuffle(preguntas)
     
     # Guardar en sesión los IDs de las preguntas en el orden aleatorio
     pregunta_ids = [p.id for p in preguntas]
@@ -52,14 +51,16 @@ def show_test(codigo_asignatura):
     session['max_preguntas']=len(pregunta_ids)
     # Obtener la primera pregunta
     primera_pregunta = Pregunta.query.get(pregunta_ids[0])
-    
+    width_percentage = (1 / len(pregunta_ids)) * 100
+
     return render_template('test.html',
                           asignatura=asignatura,
                           pregunta=primera_pregunta,
-                          preguntaActual=1,
+                          pregunta_actual=1,
                           total_preguntas=len(pregunta_ids),
+                          width_percentage=width_percentage,
                           mostrar_explicacion=False,
-                          hay_siguiente=len(pregunta_ids) > 1)
+                          hay_siguiente=len(pregunta_ids) > 1,)
 
 @app.route('/test/<codigo_asignatura>/verificar/<int:pregunta_id>',methods=["GET","POST"])
 def validar_test(codigo_asignatura, pregunta_id):

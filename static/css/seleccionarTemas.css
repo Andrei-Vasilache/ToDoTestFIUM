@@ -1,395 +1,297 @@
-/* Estilos generales */
-.bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
+/* Estilos del tema oscuro - específicos */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Colores principales */
+:root {
+  --primary-color: #712cf9;
+  --primary-hover: #6528e0;
+  --primary-active: #5a23c8;
+  --secondary-bg: #2a2d31;
+  --tertiary-bg: #32363a;
+  --hover-bg: #3a3f44;
+}
+
+.cover-container {
+  max-width: 42em;
+}
+
+/* Estilos para la selección de temas */
+.question-container {
+  background-color: var(--secondary-bg);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+}
+
+.question-container:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos para la barra de progreso */
+.test-progress {
+  margin: 0 auto 25px auto;
+  max-width: 800px;
+  width: 100%;
+  position: relative;
+}
+
+.progress {
+  height: 24px;
+  background-color: var(--secondary-bg);
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, #712cf9 0%, #8A2BE2 100%);
+  transition: width 0.8s ease;
+  height: 100%;
+  min-width: 0%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.85rem;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.progress-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  opacity: 0.3;
+  width: 100%;
+  z-index: -1;
+}
+
+/* Estilos para los temas */
+.tema-check {
+  padding: 12px;
+  border-radius: 6px;
+  background-color: var(--tertiary-bg);
+  margin-bottom: 15px !important;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.tema-check:hover {
+  background-color: var(--hover-bg);
+  transform: translateX(5px);
+}
+
+.tema-check .form-check-input {
+  cursor: pointer;
+  margin-top: 0.3em;
+}
+
+.tema-check .form-check-label {
+  cursor: pointer;
+  width: 100%;
+  padding-left: 10px;
+}
+
+.tema-icon {
+  color: var(--primary-color);
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.form-check-input:checked + .form-check-label {
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Estilos para el range slider */
+.form-range::-webkit-slider-thumb {
+  background: var(--primary-color);
+}
+
+.form-range::-moz-range-thumb {
+  background: var(--primary-color);
+}
+
+.form-range::-ms-thumb {
+  background: var(--primary-color);
+}
+
+#rangeValue {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* Estilos para badges */
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35em 0.65em;
+  border-radius: 4px;
+  vertical-align: middle;
+  transition: all 0.3s ease;
+}
+
+.badge.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.tema-check:hover .badge {
+  transform: scale(1.1);
+}
+
+/* Estilos para botones */
+.btn {
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  animation: pulse 2s infinite;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+  animation: none;
+}
+
+.btn-primary:active {
+  background-color: var(--primary-active);
+  border-color: var(--primary-active);
+  transform: translateY(0);
+}
+
+.btn i {
+  transition: transform 0.3s ease;
+}
+
+.btn-secondary:hover i {
+  transform: translateX(-3px);
+}
+
+.btn-primary:hover i {
+  transform: translateX(3px);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  @media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-      font-size: 3.5rem;
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .b-example-divider {
-    width: 100%;
-    height: 3rem;
-    background-color: rgba(0, 0, 0, .1);
-    border: solid rgba(0, 0, 0, .15);
-    border-width: 1px 0;
-    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(113, 44, 249, 0.7);
   }
-  
-  .b-example-vr {
-    flex-shrink: 0;
-    width: 1.5rem;
-    height: 100vh;
+  70% {
+    box-shadow: 0 0 0 10px rgba(113, 44, 249, 0);
   }
-  
-  .bi {
-    vertical-align: -.125em;
-    fill: currentColor;
+  100% {
+    box-shadow: 0 0 0 0 rgba(113, 44, 249, 0);
   }
-  
-  .nav-scroller {
-    position: relative;
-    z-index: 2;
-    height: 2.75rem;
-    overflow-y: hidden;
-  }
-  
-  .nav-scroller .nav {
-    display: flex;
-    flex-wrap: nowrap;
-    padding-bottom: 1rem;
-    margin-top: -1px;
-    overflow-x: auto;
-    text-align: center;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  /* Estilos del tema oscuro */
-  body {
-    text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
-    box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
-    background-color: #212529;
-    color: #fff;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Colores principales */
-  :root {
-    --primary-color: #712cf9;
-    --primary-hover: #6528e0;
-    --primary-active: #5a23c8;
-    --secondary-bg: #2a2d31;
-    --tertiary-bg: #32363a;
-    --hover-bg: #3a3f44;
-  }
-  
-  .btn-bd-primary {
-    --bd-violet-bg: #712cf9;
-    --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-  
-    --bs-btn-font-weight: 600;
-    --bs-btn-color: var(--bs-white);
-    --bs-btn-bg: var(--bd-violet-bg);
-    --bs-btn-border-color: var(--bd-violet-bg);
-    --bs-btn-hover-color: var(--bs-white);
-    --bs-btn-hover-bg: #6528e0;
-    --bs-btn-hover-border-color: #6528e0;
-    --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-    --bs-btn-active-color: var(--bs-btn-hover-color);
-    --bs-btn-active-bg: #5a23c8;
-    --bs-btn-active-border-color: #5a23c8;
-  }
-  
-  .bd-mode-toggle {
-    z-index: 1500;
-  }
-  
-  .bd-mode-toggle .bi {
-    width: 1em;
-    height: 1em;
-  }
-  
-  .bd-mode-toggle .dropdown-menu .active .bi {
-    display: block !important;
-  }
-  
+}
+
+/* Estilos para títulos */
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 10px;
+  font-weight: 600;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+main h1:first-of-type {
+  border-bottom: 2px solid rgba(113, 44, 249, 0.5);
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+main h1:first-of-type + .test-progress {
+  margin-top: -5px;
+}
+
+/* Estilo para el footer - Compatible con home.css */
+footer {
+  margin-top: auto;
+  width: 100%;
+  padding: 1rem 0;
+  position: relative;
+  flex-shrink: 0;
+  border-top: none;
+  text-align: center;
+}
+
+/* Eliminar línea roja o cualquier separador */
+footer::before {
+  display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .cover-container {
-    max-width: 42em;
+    padding: 10px !important;
+    max-width: 95% !important;
   }
   
-  .nav-masthead .nav-link {
-    color: rgba(255, 255, 255, .5);
-    border-bottom: .25rem solid transparent;
+  main {
+    padding: 10px !important;
+    width: 100% !important;
   }
   
-  .nav-masthead .nav-link:hover,
-  .nav-masthead .nav-link:focus {
-    border-bottom-color: rgba(255, 255, 255, .25);
+  .question-container {
+    max-width: 95%;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
   }
   
   .nav-masthead .nav-link + .nav-link {
-    margin-left: 1rem;
-  }
-  
-  .nav-masthead .active {
-    color: #fff;
-    border-bottom-color: #fff;
-  }
-  
-  /* Estilos para la selección de temas */
-  .question-container {
-    background-color: var(--secondary-bg);
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    max-width: 800px;
-    margin: 0 auto 20px auto;
-  }
-  
-  .question-container:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  /* Estilos para la barra de progreso */
-  .test-progress {
-    margin: 0 auto 25px auto;
-    max-width: 800px;
-    width: 100%;
-    position: relative;
-  }
-  
-  .progress {
-    height: 24px;
-    background-color: var(--secondary-bg);
-    border-radius: 5px;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .progress-bar {
-    background: linear-gradient(90deg, #712cf9 0%, #8A2BE2 100%);
-    transition: width 0.8s ease;
-    height: 100%;
-    min-width: 0%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 0.85rem;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.7);
-    white-space: nowrap;
-    overflow: visible;
-  }
-  
-  .progress-bar::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: inherit;
-    opacity: 0.3;
-    width: 100%;
-    z-index: -1;
-  }
-  
-  /* Estilos para los temas */
-  .tema-check {
-    padding: 12px;
-    border-radius: 6px;
-    background-color: var(--tertiary-bg);
-    margin-bottom: 15px !important;
-    transition: all 0.2s ease;
-    cursor: pointer;
+    margin-left: 0.5rem;
   }
   
   .tema-check:hover {
-    background-color: var(--hover-bg);
-    transform: translateX(5px);
+    transform: none;
   }
   
-  .tema-check .form-check-input {
-    cursor: pointer;
-    margin-top: 0.3em;
-  }
-  
-  .tema-check .form-check-label {
-    cursor: pointer;
+  .col-md-6 {
     width: 100%;
-    padding-left: 10px;
   }
-  
-  .tema-icon {
-    color: var(--primary-color);
-  }
-  
-  .form-check-input:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-  }
-  
-  .form-check-input:checked + .form-check-label {
-    font-weight: 600;
-    color: #fff;
-  }
-  
-  /* Estilos para el range slider */
-  .form-range::-webkit-slider-thumb {
-    background: var(--primary-color);
-  }
-  
-  .form-range::-moz-range-thumb {
-    background: var(--primary-color);
-  }
-  
-  .form-range::-ms-thumb {
-    background: var(--primary-color);
-  }
-  
-  #rangeValue {
-    font-weight: bold;
-    color: var(--primary-color);
-  }
-  
-  /* Estilos para badges */
-  .badge {
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.35em 0.65em;
-    border-radius: 4px;
-    vertical-align: middle;
-    transition: all 0.3s ease;
-  }
-  
-  .badge.bg-primary {
-    background-color: var(--primary-color) !important;
-  }
-  
-  .tema-check:hover .badge {
-    transform: scale(1.1);
-  }
-  
-  /* Estilos para botones */
-  .btn {
-    transition: all 0.3s ease;
-  }
-  
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    animation: pulse 2s infinite;
-  }
-  
-  .btn-primary:hover {
-    background-color: var(--primary-hover);
-    border-color: var(--primary-hover);
-    animation: none;
-  }
-  
-  .btn-primary:active {
-    background-color: var(--primary-active);
-    border-color: var(--primary-active);
-    transform: translateY(0);
-  }
-  
-  .btn i {
-    transition: transform 0.3s ease;
-  }
-  
-  .btn-secondary:hover i {
-    transform: translateX(-3px);
-  }
-  
-  .btn-primary:hover i {
-    transform: translateX(3px);
-  }
-  
-  /* Animaciones */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-  }
-  
-  @keyframes pulse {
-    0% {
-      box-shadow: 0 0 0 0 rgba(113, 44, 249, 0.7);
-    }
-    70% {
-      box-shadow: 0 0 0 10px rgba(113, 44, 249, 0);
-    }
-    100% {
-      box-shadow: 0 0 0 0 rgba(113, 44, 249, 0);
-    }
-  }
-  
-  /* Estilos para títulos */
-  h1 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    padding: 10px;
-    font-weight: 600;
-    width: 100%;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  main h1:first-of-type {
-    border-bottom: 2px solid rgba(113, 44, 249, 0.5);
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-  }
-  
-  main h1:first-of-type + .test-progress {
-    margin-top: -5px;
-  }
-  
-  /* Footer styling */
-  footer {
-    margin-top: auto;
-    padding: 20px 0;
-    color: rgba(255, 255, 255, 0.5);
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .cover-container {
-      padding: 10px !important;
-      max-width: 95% !important;
-    }
-    
-    main {
-      padding: 10px !important;
-      width: 100% !important;
-    }
-    
-    .question-container {
-      max-width: 95%;
-    }
-    
-    h1 {
-      font-size: 1.8rem;
-    }
-    
-    .nav-masthead .nav-link + .nav-link {
-      margin-left: 0.5rem;
-    }
-    
-    .tema-check:hover {
-      transform: none;
-    }
-    
-    .col-md-6 {
-      width: 100%;
-    }
-  }
+}
