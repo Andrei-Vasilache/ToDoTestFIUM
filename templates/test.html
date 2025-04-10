@@ -104,4 +104,30 @@
   {% include 'footer.html' %}
 
 </body>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Para los divs de form-check (opciones de respuesta en el test)
+    document.querySelectorAll('.form-check').forEach(element => {
+      element.style.cursor = 'pointer';
+      
+      element.addEventListener('click', function(e) {
+        // Si NO se hizo clic directamente en el radio button
+        if (e.target.type !== 'radio') {
+          // Encuentra el radio button dentro del div
+          const radio = this.querySelector('input[type="radio"]');
+          if (radio) {
+            // Selecciona el radio button
+            radio.checked = true;
+          }
+          
+          // Prevenir comportamiento por defecto
+          e.preventDefault();
+        }
+      });
+    });
+    
+
+    });
+
+</script>
 </html>

@@ -105,6 +105,9 @@ document.querySelectorAll('.tema-check').forEach(element => {
       // Disparar evento de cambio para que se registre correctamente
       const event = new Event('change');
       checkbox.dispatchEvent(event);
+      
+      // Prevenir comportamiento por defecto
+      e.preventDefault();
     }
   });
 });
