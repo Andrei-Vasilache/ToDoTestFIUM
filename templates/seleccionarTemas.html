@@ -94,13 +94,20 @@
       document.getElementById('rangeValue').textContent = val;
     }
     
-    // Seleccionar/deseleccionar todos los temas
-    function toggleAll(checked) {
-      const checkboxes = document.querySelectorAll('input[name="temas_seleccionados"]');
-      checkboxes.forEach(checkbox => {
-        checkbox.checked = checked;
-      });
+// Hacer que todo el div tema-check sea clicable
+document.querySelectorAll('.tema-check').forEach(element => {
+  element.addEventListener('click', function(e) {
+    // Evitar activación doble si se hace clic directamente en el checkbox
+    if (e.target.type !== 'checkbox') {
+      const checkbox = this.querySelector('input[type="checkbox"]');
+      checkbox.checked = !checkbox.checked;
+      
+      // Disparar evento de cambio para que se registre correctamente
+      const event = new Event('change');
+      checkbox.dispatchEvent(event);
     }
+  });
+});
   </script>
 </body>
 </html>
