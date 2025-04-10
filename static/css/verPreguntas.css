@@ -1,0 +1,202 @@
+/* Estilos para la página de visualización de preguntas */
+
+/* Colores base inspirados en tu paleta */
+:root {
+    --color-purple-primary: #6528e0;    /* Morado principal */
+    --color-purple-secondary: #5a23c8;  /* Morado secundario */
+    --color-dark-bg: #1e2124;           /* Fondo oscuro */
+    --color-dark-card: #2a2d31;         /* Fondo de tarjeta */
+    --color-dark-option: #36393f;       /* Fondo de opciones */
+  }
+  
+  /* Contenedor principal de la pregunta */
+  .question-container {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Encabezado de la pregunta */
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+  }
+  
+  .question-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  /* Badges de estado - sin gradientes */
+  .status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+  }
+  
+  .status-correct {
+    background-color: #198754;
+  }
+  
+  .status-incorrect {
+    background-color: #dc3545;
+  }
+  
+  /* Contenido de la pregunta */
+  .question-content {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    border-left: 3px solid var(--color-purple-primary);
+    padding-left: 1rem;
+  }
+  
+  /* Lista de opciones */
+  .options-list {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .option-item {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+    border-left: 5px solid transparent;
+  }
+  
+  .option-item:hover {
+    transform: translateY(-2px);
+  }
+  
+  .option-item.correct {
+    border-left: 5px solid #198754;
+    background-color: rgba(25, 135, 84, 0.1);
+  }
+  
+  .option-item.incorrect {
+    border-left: 5px solid #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+  }
+  
+  /* Marcadores de opciones */
+  .option-marker {
+    width: 2.2rem;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 1rem;
+    font-weight: bold;
+  }
+  
+  .option-marker.selected {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .option-marker.correct {
+    background-color: #198754;
+    color: white;
+  }
+  
+  .option-marker.incorrect {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .option-text {
+    flex-grow: 1;
+  }
+  
+  /* Contenedor de explicación */
+  .explanation-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    border-left: 5px solid var(--color-purple-primary);
+  }
+  
+  .explanation-title {
+    color: var(--color-purple-primary);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  
+  .explanation-content {
+    line-height: 1.6;
+  }
+  
+  /* Botones de acción */
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .btn-outline-light:hover {
+    background-color: var(--color-purple-primary);
+    border-color: var(--color-purple-primary);
+  }
+  
+  .btn-primary {
+    background-color: var(--color-purple-primary);
+    border-color: var(--color-purple-primary);
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--color-purple-secondary);
+    border-color: var(--color-purple-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Enlaces */
+  a.question-view-btn {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: var(--color-purple-primary);
+    color: white;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  a.question-view-btn:hover {
+    background-color: var(--color-purple-secondary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .question-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .status-badge {
+      margin-top: 0.5rem;
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+    }
+  }

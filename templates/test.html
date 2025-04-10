@@ -41,19 +41,14 @@
           {% if not mostrar_explicacion %}
           <!-- Formulario para responder -->
           <form method="POST" action="{{ url_for('show_explicacion', codigo_asignatura=asignatura.codigo, pregunta_id=pregunta.id) }}">
+            {%for opcion in opciones%}
             <div class="form-check mb-3">
-              <input class="form-check-input" type="radio" name="respuesta" id="opcion1" value="0" required>
-              <label class="form-check-label" for="opcion1">
-                {{ pregunta.opcion1 }}
+              <input class="form-check-input" type="radio" name="respuesta" id="opcion{{loop.index}}" value="{{loop.index0}}" required>
+              <label class="form-check-label" for="opcion{{loop.index}}">
+                {{ opcion }}
               </label>
             </div>
-            <div class="form-check mb-3">
-              <input class="form-check-input" type="radio" name="respuesta" id="opcion2" value="1" required>
-              <label class="form-check-label" for="opcion2">
-                {{ pregunta.opcion2 }}
-              </label>
-            </div>
-            
+            {%endfor%}
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
               <button type="submit" class="btn btn-primary">Verificar Respuesta</button>
             </div>
@@ -61,37 +56,23 @@
           {% else %}
           <!-- Resultado de la respuesta -->
           <div class="opciones-resultado">
-            <!-- Opción 1 -->
+          {% for opcion in opciones %}
             <div class="opcion-resultado mb-3 p-2 rounded
-            {% if respuesta_elegida == '0' and respuesta_correcta %}bg-success bg-opacity-25
-            {% elif respuesta_elegida == '0' and not respuesta_correcta %}bg-danger bg-opacity-25
-            {% elif respuesta_elegida != '0' and not respuesta_correcta %}bg-success bg-opacity-10{% endif %}">
-              {{ pregunta.opcion1 }}
-              {% if respuesta_elegida == '0' %}
-              <span class="badge {% if respuesta_correcta %}bg-success{% else %}bg-danger{% endif %} ms-2">
-                Tu respuesta
-              </span>
-              {% endif %}
-              {% if respuesta_elegida != '0' and not respuesta_correcta %}
-              <span class="badge bg-success ms-2">Correcta</span>
-              {% endif %}
+                {% if loop.index0 == respuesta_correcta %}bg-success bg-opacity-25
+                {% elif respuesta_elegida == loop.index0 and respuesta_elegida != respuesta_correcta %}bg-danger bg-opacity-25
+                {% endif %}">
+                {{ opcion }}
+                {% if respuesta_elegida == loop.index0 %}
+                <span class="badge {% if loop.index0 == respuesta_correcta %}bg-success{% else %}bg-danger{% endif %} ms-2">
+                    Tu respuesta
+                </span>
+                {% endif %}
+                {% if loop.index0 == respuesta_correcta and respuesta_elegida != respuesta_correcta %}
+                <span class="badge bg-success ms-2">Correcta</span>
+                {% endif %}
             </div>
-
-            <!-- Opción 2 -->
-            <div class="opcion-resultado mb-3 p-2 rounded
-            {% if respuesta_elegida == '1' and respuesta_correcta %}bg-success bg-opacity-25
-            {% elif respuesta_elegida == '1' and not respuesta_correcta %}bg-danger bg-opacity-25
-            {% elif respuesta_elegida != '1' and not respuesta_correcta %}bg-success bg-opacity-10{% endif %}">
-              {{ pregunta.opcion2 }}
-              {% if respuesta_elegida == '1' %}
-              <span class="badge {% if respuesta_correcta %}bg-success{% else %}bg-danger{% endif %} ms-2">
-                Tu respuesta
-              </span>
-              {% endif %}
-              {% if respuesta_elegida != '1' and not respuesta_correcta %}
-              <span class="badge bg-success ms-2">Correcta</span>
-              {% endif %}
-            </div>
+          {% endfor %}
+           
           </div>
           
           <!-- Explicación -->
@@ -102,9 +83,15 @@
           
           <!-- Navegación -->
           <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+            {% if hay_siguiente %}
             <a href="{{ url_for('siguiente_pregunta', codigo_asignatura=asignatura.codigo, pregunta_actual=pregunta_actual) }}" 
               class="btn btn-primary">
-              {% if hay_siguiente %}Siguiente Pregunta{% else %}Ver Resultados{% endif %}
+              Siguiente Pregunta
+            </a>
+          {% else %}
+            <a href="{{ url_for('show_resultados', codigo_asignatura=asignatura.codigo, pregunta_actual=pregunta_actual,pagina=1) }}" 
+              class="btn btn-primary">
+              Ver Resultados{% endif %}
             </a>
           </div>
           {% endif %}

@@ -1,4 +1,4 @@
-from models import db, Tema, Pregunta, Respuesta,Asignatura
+from models import db, Tema, Pregunta,Asignatura
 from flask import Flask
 app = Flask(__name__)
 def crear_asignatura(nombre,codigo):

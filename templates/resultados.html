@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoTestFIUM - Resultados</title>
+    <link rel="stylesheet" href="/static/css/resultados.css">
+    <style>
+        /* Añado estos estilos para asegurar que el desplegable funcione */
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            padding: 10px;
+            z-index: 100; /* Aumentado para asegurar que esté por encima de otros elementos */
+            width: 200px;
+            text-align: center;
+        }
+        
+        .dropdown-content.show {
+            display: block;
+        }
+        
+        .dropdown-content form {
+            margin: 0;
+        }
+        
+        .dropdown-content input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .dropdown-content button {
+            padding: 8px 12px;
+            background-color: #712cf9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: calc(100% - 20px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>ToDoTestFIUM</h1>
+            <p>Revisa todas las preguntas que has realizado</p>
+        </header>
+        
+        <main class="results-section">
+            <div class="results-header">
+                <div class="results-title">Resultados del Test</div>
+            </div>
+            
+            <div class="results-summary">
+                <div class="summary-item">
+                    <span class="summary-label">Total</span>
+                    <span class="summary-value">{{n_preguntas}}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Correctas</span>
+                    <span class="summary-value">{{acertadas}}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Incorrectas</span>
+                    <span class="summary-value">{{n_preguntas-acertadas}}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Puntuación</span>
+                    <span class="summary-value">{{porcentaje}}%</span>
+                </div>
+            </div>
+            
+            <div class="questions-list">
+                <!-- Aquí puedes usar Jinja para iterar sobre las preguntas -->
+                {%for pregunta in preguntas%}
+                <div class="question-item">
+                    <div class="question-info">
+                        <div class="question-number">Pregunta {{(loop.index0 + (pagina-1) * items_por_pagina + 1)}}</div>
+                        {%if pregunta.indice_correcto == lista_respondidas[loop.index0]%}
+                        <span class="question-status status-correct">Correcta</span>
+                        {%else%}
+                        <span class="question-status status-incorrect">Incorrecta</span>
+                        {%endif%}
+                        <div class="question-brief">{{pregunta.texto}}</div>
+                    </div>
+                    <a href="{{url_for('ver_pregunta',id=pregunta.id)}}" class="question-view-btn" style="text-decoration: none;">Ver Pregunta</a>
+                </div>
+                {%endfor%}
+
+            </div>
+            
+            <div class="pagination">
+                <a href="{{url_for('show_resultados', pagina=pagina-1)}}">
+                    <button class="pagination-btn">Anterior</button>
+                </a>
+                
+                <a href="{{url_for('show_resultados', pagina=pagina)}}">
+                    <button class="pagination-btn active">{{pagina}}</button>
+                </a>
+                
+                <a href="{{url_for('show_resultados', pagina=pagina+1)}}">
+                    <button class="pagination-btn ">{{pagina+1}}</button>
+                </a>
+                
+                <div class="dropdown-container">
+                    <button class="pagination-btn" id="btn-more">...</button>
+                    <div class="dropdown-content" id="page-dropdown">
+                        <form action="{{url_for('show_resultados')}}" method="get">
+                            <input type="number" name="pagina" placeholder="Ir a la página..." min="1" max="{{total_paginas}}">
+                            <button type="submit">Ir a la página</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <a href="{{url_for('show_resultados',pagina=pagina+1)}}">
+                    <button class="pagination-btn">Siguiente</button>
+                </a>
+            </div>
+            
+            <div class="action-buttons">
+                <a class="btn btn-outline" href="{{url_for('home')}}" style="text-decoration: none;">Volver al inicio</a>
+
+                <a class="btn btn-primary" href="{{url_for('tests')}}" style="text-decoration: none;">Nuevo test</a>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnMore = document.getElementById('btn-more');
+            const pageDropdown = document.getElementById('page-dropdown');
+            
+            // Mostrar/ocultar el desplegable al hacer clic en "..."
+            btnMore.addEventListener('click', function(e) {
+                e.preventDefault();
+                pageDropdown.classList.toggle('show');
+            });
+            
+            // Cerrar el desplegable si se hace clic fuera de él
+            window.addEventListener('click', function(event) {
+                if (!event.target.matches('#btn-more') && !event.target.closest('#page-dropdown')) {
+                    if (pageDropdown.classList.contains('show')) {
+                        pageDropdown.classList.remove('show');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

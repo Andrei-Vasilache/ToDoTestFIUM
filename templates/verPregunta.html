@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Pregunta</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/verPreguntas.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container d-flex flex-column min-vh-100 px-4 py-5">
+{%include 'header.html'%}
+
+        <main class="flex-grow-1">
+            <div class="question-container">
+                <div class="question-header">
+                    <div class="question-number">Pregunta {{n_pregunta}}</div>
+                    {%if respuesta==pregunta.indice_correcto%}
+                    <span class="status-badge status-correct">Correcta</span>
+                    {%else%}
+                    <span class="status-badge status-incorrect">Incorrecta</span>
+                    {%endif%}
+                </div>
+                
+                <div class="question-content">
+                    {{pregunta.texto}}
+                </div>
+                
+                <div class="options-container">
+                    <h5 class="mb-3">Opciones:</h5>
+                    <ul class="options-list">
+                        {% for opcion in opciones %}
+                        {% if loop.index0 == pregunta.indice_correcto %}
+                            <!-- Esta es la opción correcta -->
+                            <li class="option-item correct">
+                                <div class="option-marker correct">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                                    </svg>
+                                </div>
+                                <div class="option-text">{{ opcion }}</div>
+                            </li>
+                        {% elif loop.index0 == respuesta and respuesta != pregunta.indice_correcto %}
+                            <!-- Esta es la opción seleccionada pero incorrecta -->
+                            <li class="option-item incorrect">
+                                <div class="option-marker incorrect">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                                    </svg>
+                                </div>
+                                <div class="option-text">{{ opcion }}</div>
+                            </li>
+                        {% else %}
+                            <!-- Esta es una opción no seleccionada y no correcta -->
+                            <li class="option-item">
+                                <div class="option-marker">
+                                    {{ loop.index }}
+                                </div>
+                                <div class="option-text">{{ opcion }}</div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+
+                       
+                </div>
+                
+                <div class="explanation-container">
+                    <div class="explanation-title">Explicación:</div>
+                    <div class="explanation-content">
+                        El Modelo es el principal componente del patrón MVC (Modelo-Vista-Controlador) ya que representa los datos y la lógica de negocio de la aplicación. Es responsable de recuperar datos, convertirlos en conceptos significativos para la aplicación, así como procesarlos, validarlos, asociarlos con otros y realizar cualquier otra tarea relativa a la manipulación de dichos datos.
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="{{url_for('show_resultados',pagina=1)}}" class="btn btn-outline-light">Volver al Listado</a>
+                    <a href="{{url_for('siguiente_resultado',id=pregunta.id)}}" class="btn btn-primary">Siguiente Pregunta</a>
+                </div>
+            </div>
+        </main>
+        {%include 'footer.html'%}
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

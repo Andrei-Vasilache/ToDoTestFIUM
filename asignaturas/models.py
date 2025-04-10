@@ -18,39 +18,22 @@ class Tema(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     tema = db.Column(db.Integer, nullable=True)
     asignatura_id = db.Column(db.Integer, db.ForeignKey('asignatura.id'), nullable=False)
-    
-    # Relación con las preguntas
-    preguntas = db.relationship('Pregunta', backref='tema', lazy=True)
 # Modelo para las preguntas
 class Pregunta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     texto = db.Column(db.Text, nullable=False)
-    tema_id = db.Column(db.Integer, db.ForeignKey('tema.id'), nullable=False)
     tema_num = db.Column(db.Integer,nullable=False)
     asignatura_id = db.Column(db.Integer, db.ForeignKey('asignatura.id'),nullable=False)
     explicacion = db.Column(db.Text, nullable=True)
-    opcion1 = db.Column(db.Text,nullable=False)
-    opcion2 = db.Column(db.Text,nullable=False)
+    opciones = db.Column(db.Text, nullable=False)
     dificultad = db.Column(db.Text,nullable=False)
+    indice_correcto = db.Column(db.Integer,nullable=False)
     # Tipo de pregunta: multiple, simple, verdadero_falso, texto_libre
     tipo = db.Column(db.String(20), default='simple')
     
     # Fecha de creación
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
     
-    # Relación con las respuestas
-    respuestas = db.relationship('Respuesta', backref='pregunta', lazy=True)
     
     def __repr__(self):
         return f'<Pregunta {self.id}: {self.texto[:30]}...>'
-
-# Modelo para las respuestas
-class Respuesta(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    texto = db.Column(db.Text, nullable=False)
-    indice_correcto = db.Column(db.Integer,nullable=False)
-    pregunta_id = db.Column(db.Integer, db.ForeignKey('pregunta.id'), nullable=False)
-    es_correcta = db.Column(db.Boolean, default=False)
-    
-    def __repr__(self):
-        return f'<Respuesta {self.id} para Pregunta {self.pregunta_id}>'
