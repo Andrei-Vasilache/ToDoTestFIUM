@@ -3,6 +3,7 @@ from asignaturas.models import db, Tema, Pregunta,Asignatura
 from sqlalchemy import func
 import random
 import ast
+import math
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todotest.db'
@@ -177,7 +178,7 @@ def show_resultados():
     ids_preguntas = session.get('pregunta_ids',[])
     preguntas = []
     items_por_pagina = 5
-    total_paginas = int(len(ids_preguntas)/items_por_pagina)+1
+    total_paginas = math.ceil(len(ids_preguntas) / items_por_pagina)
     if pagina > total_paginas:
         pagina=total_paginas
     if pagina < 1:

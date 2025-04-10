@@ -89,6 +89,10 @@ body {
   margin-bottom: 15px !important;
   transition: all 0.2s ease;
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .tema-check:hover {
